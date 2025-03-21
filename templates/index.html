@@ -1,0 +1,32 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+</head>
+<body>
+    <h1>Sentiment Analysis with BERT</h1>
+    <form id="input-form" action="/predict" method="post">
+        <label for="text">Enter a sentence:</label><br><br>
+        <textarea name="text" rows="4" cols="50" required></textarea><br><br>
+        <button type="submit">Predict Sentiment</button>
+    </form>
+    <h2>Prediction: <span id="prediction-result"></span></h2>
+
+    <script>
+        const form = document.getElementById('input-form');
+        form.onsubmit = async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            document.getElementById('prediction-result').textContent = result.prediction;
+        };
+    </script>
+</body>
+</html>
